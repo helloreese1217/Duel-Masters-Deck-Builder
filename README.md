@@ -1,4 +1,3 @@
-
 # DMBuilder
 
 **DMBuilder** is a web-based deck-building and playtest simulation platform designed for the Duel Masters TCG. It eliminates the need for physical card acquisition during initial theory-crafting by providing players with centralized data management, a streamlined user interface, and an interactive virtual sandbox to validate deck consistency and strategic performance in real time.
@@ -36,22 +35,22 @@ The platform architecture relies on a traditional client-server model communicat
 ```
 
 +-------------------------------------------------------+
-|                     Client Browser                    |
+|                       Client Browser                  |
 |  [UI Layout] <--> [JS Memory Layer (cards.json Cache)]|
 +-------------------------------------------------------+
-^                                         ^
-| HTTP Requests                           | AJAX (JSON)
-v                                         v
+^                                                         ^
+| HTTP Requests                                           | AJAX (JSON)
+v                                                         v
 +-------------------------+             +-----------------------+
 |  PHP Authentication &   |             |   save_deck.php API   |
 |   Session Layer (PDO)   |             |  (De/Serialization)   |
 +-------------------------+             +-----------------------+
-^                                         ^
-| SQL Queries                             | SQL Queries
-v                                         v
+^                                                         ^
+| SQL Queries                                             | SQL Queries
+v                                                         v
 +---------------------------------------------------------------+
-|                        MySQL Database                         |
-|      [users table: id, pass_hash] <--> [decks table]           |
+|                         MySQL Database                        |
+|      [users table: id, pass_hash] <--> [decks table]          |
 +---------------------------------------------------------------+
 
 ```
@@ -80,22 +79,22 @@ Follow these instructions to configure and run the project locally using a stand
 ### Prerequisites
 * **PHP:** Version 8.0 or higher.
 * **Database:** MySQL / MariaDB engine.
-* **Web Server:** Apache or Nginx configuration.
+* **Web Server:** Apache server environment.
 
 ### Deployment Instructions
 
 1. **Clone the Repository**
    Move into your local server root path (e.g., `XAMPP/htdocs/`) and clone the codebase:
    ```bash
-   git clone [https://github.com/yourusername/DMBuilder.git](https://github.com/yourusername/DMBuilder.git)
-   cd DMBuilder
+   git clone [https://github.com/helloreese1217/Duel-Masters-Deck-Builder.git](https://github.com/helloreese1217/Duel-Masters-Deck-Builder.git)
+   cd Duel-Masters-Deck-Builder
 
 ```
 
 2. **Database Initialization**
 * Access your database administration panel (e.g., `phpMyAdmin`).
-* Generate an empty schema named `dmbuilder`.
-* Open the database management workspace and run the initial setup script:
+* Generate an empty schema named `duel_masters_db`.
+* Open the database management workspace SQL window and run the initial setup script:
 
 
 ```sql
@@ -121,15 +120,28 @@ CREATE TABLE IF NOT EXISTS decks (
 
 
 3. **Configure Environment Connection**
-Modify the database initialization parameters inside your database configuration file (e.g., `db_connect.php` or header blocks) to match your local runtime environment credentials:
+Ensure your centralized database runtime connector configuration file mirrors standard local parameters to connect seamlessly to your local database engine instance:
 ```php
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'dmbuilder');
-define('DB_USER', 'root');
-define('DB_PASS', ''); // Modify to match your root user config
+<?php
+$host = 'localhost';
+$db   = 'duel_masters_db';
+$user = 'root';
+$pass = '';
+$charset = 'utf8mb4';
+
+$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+$options = [
+    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES   => false,
+];
 
 ```
 
+
+4. **Boot the Application Runtime**
+Start your Apache web server and MariaDB database engines from your local XAMPP control panel. Launch the client deployment path via:
+`http://localhost/Duel-Masters-Deck-Builder/index.php`
 
 ---
 
@@ -145,7 +157,7 @@ define('DB_PASS', ''); // Modify to match your root user config
 
 * **Maintainer:** Ryo Koga
 * **Email:** ryokoga2004@gmail.com
-* **Project Repository:** [https://github.com/helloreese1217/Duel-Masters-Deck-Builder](https://www.google.com/search?q=https://github.com/helloreese1217/Duel-Masters-Deck-Builder)
+* **Project Repository:** [https://github.com/helloreese1217/Duel-Masters-Deck-Builder](https://github.com/helloreese1217/Duel-Masters-Deck-Builder)
 
 ```
 
